@@ -1,0 +1,19 @@
+<!--this is a common layout for every page so we can code it in a different file-->
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>
+            <%= title %>
+        </title>
+    </head>
+
+    <body>
+    
+        <!-- this is partial call. partial is a code which is common to every page of website so we make it a different file and call it-->
+        <%- include('_header') %>
+
+        <%- body %>
+
+        <%- include('_footer') %>
+    </body>
+</html>
