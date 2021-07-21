@@ -1,3 +1,3 @@
 module.exports.home = function(req, res){
-    return res.end('<h1>sajbk</h1>');
+    return res.end('<h1>Home controllers</h1>');
 }
