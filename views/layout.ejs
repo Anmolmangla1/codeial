@@ -6,6 +6,9 @@
             <%= title %>
         </title>
         <link rel="stylesheet" href="/css/layout.css">
+        <link rel="stylesheet" href="/css/header.css">
+        <link rel="stylesheet" href="/css/footer.css">
+
         <%- style %>
     </head>
 
@@ -14,7 +17,10 @@
         <!-- this is partial call. partial is a code which is common to every page of website so we make it a different file and call it-->
         <%- include('_header') %>
 
-        <%- body %>
+        <main id="layout-main">
+            <%- body %>
+
+        </main>
 
         <%- include('_footer') %>
 
