@@ -1,4 +1,6 @@
 const User = require('../models/user');
+const fs = require('fs');
+const path = require('path');
 
 module.exports.profile = function(req, res){
     User.findById(req.params.id, function(err, user){
@@ -9,11 +11,36 @@ module.exports.profile = function(req, res){
     });
 }
 
-module.exports.update = function(req, res){
+module.exports.update = async function(req, res){
+
     if(req.user.id == req.params.id){
-        User.findByIdAndUpdate(req.params.id, req.body, function(err, user){
+       
+        try{
+                let user = await User.findById(req.params.id);
+                User.uploadedAvatar(req, res, function(err){
+                    user.name = req.body.name;
+                    user.email = req.body.email;
+
+                    //this if is for as avatar is not requied in db so we are cheking if user is uploading file or not. if uploading then save the path to db
+                    if(req.file){
+
+                        //for deleteing the old picture if updating new one
+                        if(user.avatar){
+                            fs.unlinkSync(path.join(__dirname, '..', user.avatar));
+                        }
+                        //this is saving the path of the uplaoded file into the avatar field in the user
+                        user.avatar = User.avatarPath + '/' + req.file.filename;
+                    }
+                    user.save();
+
+                    return res.redirect('back');
+                });
+
+        }catch(err){
+            req.flash('error', err);
             return res.redirect('back');
-        });
+        }
+    
     }else{
         return res.status(401).send('Unauthorized');
     }
